@@ -1,0 +1,35 @@
+{
+  "name": "@nersantucci/moonbots",
+  "version": "1.0.0",
+  "description": "Простой враппер для использования API Moonbots",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ner Santucci (decodercc)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decodercc/moonbots.js.git"
+  },
+  "keywords": [
+    "moonbots",
+    "discord",
+    "discord",
+    "bots",
+    "moon",
+    "discord",
+    "bot",
+    "discord",
+    "bot",
+    "list",
+    "discord",
+    "list",
+    "bot",
+    "list"
+  ],
+  "bugs": {
+    "url": "https://github.com/decodercc/moonbots.js/issues"
+  },
+  "homepage": "https://github.com/decodercc/moonbots.js#readme"
+}
