@@ -1,5 +1,5 @@
 {
-  "name": "@nersantucci/moonbots",
+  "name": "moonbots.js",
   "version": "1.0.0",
   "description": "Простой враппер для использования API Moonbots",
   "main": "index.js",
@@ -8,6 +8,12 @@
   },
   "author": "Ner Santucci (decodercc)",
   "license": "MIT",
+  "dependencies": {
+    "discord.js": "12.5.2",
+    "emitter": "0.0.5",
+    "node-fetch": "2.6.0",
+    "ws": "8.2.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/decodercc/moonbots.js.git"
