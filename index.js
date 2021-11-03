@@ -4,7 +4,7 @@ const FLS = false;
 // const emt = require('emitter');
 const wsr = require('ws');
 
-const { apr, wsrr, wsprefix,prefix, errorColor, defaultColor } = require("./_cfg.js");
+const { base_url, wsrr, wsprefix,prefix, errorColor, defaultColor } = require("./_cfg.js");
 
 function nError(message, exit) {
   if(exit && exit !== false) {
@@ -27,20 +27,15 @@ function nLogWPT(message) {
   return console.log(defaultColor, prefix + new Date() + message, defaultColor);
 }
 
-module.exports = class MoonbotsJS {
-  constructor(token, options) {
-    if(!token) return nError("Вы должны указать токен API!", true);
-    // if(!client) return nError("Вы должны указать константу клиента!", true);
-    // return nError('Вы указали неверный токен API!');
+class APIWrapper {
 
-    this["token"] = token;
-    // this.emitter = new emt.EventEmitter()
-    // this["client"] = client;
-    this._events = {};
-    // if(options?.websocketenabled == true) {
+  constructor(token, options) {
+
+    if(!token) return nError("Вы должны указать токен API!", true);
+    this.token = token;
+
     if(FLS == true) {
     this.ws = new wsr.WebSocket(wsrr);
-    // this.ws.send('test')
     this.ws.on('error', err => {
       return nWSLog('Websocket не подключён: ' + err)
     })
@@ -60,20 +55,25 @@ module.exports = class MoonbotsJS {
     }
     return this;
   }
-  on(name, listener) {
-    if (!this._events[name]) {
-      this._events[name] = [];
-    }
-    // if (name !== "ready") return nError("Вы ввели неправильное имя листенера!", true);
-    this._events[name].push(listener);
-    listener();
+
+  /*
+  * getInfo ASYNC
+  * @param botID(Number | String) - The bot's id
+  * @return content(Object) - GetInfo request's response
+  */
+
+  async getInfo(botID) {
+      let content = await fetch(`${base_url}/bots/${botID}/botinfo`).then(d => d.json())
+      if(content.code == 400 || content.code == 404) return nError('По указанному ID не был найден бот.');
+      return content;
   }
-  async getInfo(botid) {
-      let ff = await fetch(`${apr}/bots/${botid}/botinfo`);
-      let f = await ff.json();
-      if(f.code == 400 || f.code == 404) return nError('По указанному ID не был найден бот.');
-      return JSON.stringify(f);
-  }
+
+  /*
+  * setAutoPost ASYNC
+  * @param client(Discord.Client(discord.js:12.x-13.x)) - Bot's client object
+  * @param interval(Number = 1800000(30min)) - The statistics send interval in ms
+  */
+
   async setAutoPost(client, interval = 1800000) {
     if(!client) return nError('Вы не указали константу клиента!')
 
@@ -91,3 +91,5 @@ module.exports = class MoonbotsJS {
     if(s.success == true) return nLogWPT(' Статистика успешно отправлена на API Moonbots! ' + JSON.stringify(s))
 };
 };
+
+module.exports = APIWrapper
