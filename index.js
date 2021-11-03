@@ -37,17 +37,8 @@ module.exports = class MoonbotsJS {
     // this.emitter = new emt.EventEmitter()
     // this["client"] = client;
     this._events = {};
-    // учёл чистку лишнего кода от @CatInChair
 
     return this;
-  }
-  on(name, listener) {
-    if (!this._events[name]) {
-      this._events[name] = [];
-    }
-    if (name !== "ready") return nError("Вы ввели неправильное имя листенера!", true);
-    this._events[name].push(listener);
-    listener();
   }
 
   /**
@@ -64,34 +55,22 @@ module.exports = class MoonbotsJS {
 
   /**
   * setAutoPost
-  * @param client(Discord.Client(discord.js:12.x-13.x)) - Bot's client object
+  * @param client_id(Number | String) - Bot's id
+  * @param guilds_amount(Number) - Guilds amount
   * @param interval(Number = 1800000(30min)) - The statistics send interval in ms
   */
-  async setAutoPost(client, interval = 1800000) {
+  async setAutoPost(client_id, guilds_amount, interval = 1800000) {
+    // За основу взял изменения из запроса @CatInChair
     if(!client) return nError('Вы не указали константу клиента!')
 
     if(interval && interval < 900000) return nError("Отправка статистики возможна не менее одного раза в 15 минут!");
-    let s = await (await fetch(`${base_url}/api/auth/stats/${client.user.id}`, {
-      method: 'POST',
-      body: JSON.stringify({ servers: client.guilds.cache.size }),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': this.token
-      },
-    })).json();
+    if(!guild_amount instanceof Number && !Number(guild_amount)) return nError("Кол-во гильдий должно быть представлено численным значением");
+    await this._setStats(client_id, guild_amount);
+    return setInterval(this._setStats, interval, client_id, guilds_amount);
+  };
+  async _setStats(clientID, guilds_amount) {
+    let s = await (await fetch(`${base_url}/api/auth/stats/${clientID}`, { method: 'POST', body: JSON.stringify({ servers: guilds_amount }), headers: { 'Content-Type': 'application/json', 'Authorization': this.token}, })).json();
     if(s.success == 'false') return nError('Ошибка отправки статистики! ' + s.error);
-    if(s.success == true) return nLogWPT(' Статистика успешно отправлена на API Moonbots! ' + JSON.stringify(s));
-    setInterval(() => {
-        let s = await (await fetch(`${base_url}/api/auth/stats/${client.user.id}`, {
-            method: 'POST',
-            body: JSON.stringify({ servers: client.guilds.cache.size }),
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': this.token
-            },
-          })).json();
-          if(s.success == 'false') return nError('Ошибка отправки статистики! ' + s.error);
-          if(s.success == true) return nLogWPT(' Статистика успешно отправлена на API Moonbots! ' + JSON.stringify(s));
-    }, interval);
-};
-};
+    if(s.success == 'true') return nLogWPT(' Статистика успешно отправлена на API Moonbots! ' + JSON.stringify(s))
+  }
+  };
