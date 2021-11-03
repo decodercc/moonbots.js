@@ -1,8 +1,8 @@
 module.exports = {
-    apr: "https://moonbots.xyz",
-    wsrr: 'ws://localhost:8080',
+    base_url: "https://moonbots.xyz",
+    ws_base: 'ws://localhost:8080',
     prefix: "[ Moonbots.JS ]: ",
     wsprefix: "[ Moonbots Websocket ]: ",
-    errorColor: "\x1b[31m",
-    defaultColor: "\x1b[37m"
+    error_color: "\x1b[31m",
+    default_color: "\x1b[37m"
 }
