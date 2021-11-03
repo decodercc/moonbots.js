@@ -4,7 +4,7 @@ const FLS = false;
 // const emt = require('emitter');
 const wsr = require('ws');
 
-const { base_url, wsrr, wsprefix,prefix, errorColor, defaultColor } = require("./_cfg.js");
+const { base_url, websocket_base_url, websocket_message_prefix,message_prefix, errorColor, defaultColor } = require("./_cfg.js");
 
 function nError(message, exit) {
   if(exit && exit !== false) {
