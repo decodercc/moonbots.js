@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 const Discord = require("discord.js")
-//const wsr = require('ws');
+const wsr = require('ws');
 
 const { base_url, websocket_base_url, message_websocket_prefix,message_prefix, error_color, default_color } = require("./cfg.json");
 
