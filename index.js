@@ -95,7 +95,8 @@ class APIWrapper {
 
   /*
   * _setStats ASYNC PRIVATE
-  * @param client(Discord.Client) - This bot's client object
+  * @param clientID(String | Number) - This bot's client id
+  * @param guilds_amount(Number) - Amount of guilds
   */
 
   async _setStats(clientID, guilds_amount){
