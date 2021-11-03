@@ -1,6 +1,6 @@
 {
    "base_url": "https://moonbots.xyz",
-    "websocket_base_url": 'ws://localhost:8080',
+    "websocket_base_url": "ws://localhost:8080",
     "message_prefix": "[ Moonbots.JS ]: ",
     "message_websocket_prefix": "[ Moonbots Websocket ]: ",
     "error_color": "\x1b[31m",
