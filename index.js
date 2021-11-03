@@ -13,7 +13,7 @@ function nError(message, exit) {
   }
 }
 function nLog(message) {
-      return console.log(default_color, prefix + message, default_color);
+      return console.log(default_color, message_prefix + message, default_color);
 }
 function nWSLog(message) {
   return console.log(default_color, message_websocket_prefix + message, default_color);
