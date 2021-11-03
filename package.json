@@ -1,6 +1,6 @@
 {
   "name": "moonbots.js",
-  "version": "1.0.1",
+  "version": "1.1.2",
   "description": "Простой враппер для использования API Moonbots",
   "main": "index.js",
   "scripts": {
