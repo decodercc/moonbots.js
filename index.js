@@ -79,16 +79,18 @@ class APIWrapper {
 
   /*
   * setAutoPost
-  * @param client(Discord.Client(discord.js:12.x-13.x)) - Bot's client object
+  * @param client_id(Number | String) - Bot's id
+  * @param guilds_amount(Number) - Guilds amount
   * @param interval(Number = 1800000(30min)) - The statistics send interval in ms
   * @return interval(IntervalObject) - The auto-post interval object
   */
 
-  setAutoPost(client, interval = 1800000) {
+  setAutoPost(client_id,guilds_amount, interval = 1800000) {
     if(!client) return nError('Вы не указали константу клиента!')
     if(interval && interval < 900000) return nError("Отправка статистики возможна не менее одного раза в 15 минут!");
+    if(!guild_amount instanceof Number && !Number(guild_amount)) return nError("Кол-во гильдий должно быть представлено численным значением")
     
-    return setInterval(this._setStats,interval, client)
+    return setInterval(this._setStats,interval, client_id, guilds_amount)
   };
 
   /*
@@ -96,8 +98,8 @@ class APIWrapper {
   * @param client(Discord.Client) - This bot's client object
   */
 
-  async _setStats(client){
-    let s = await (await fetch(`${base_url}/api/auth/stats/${client.user.id}`, { method: 'POST', body: JSON.stringify({ servers: client.guilds.cache.size }), headers: { 'Content-Type': 'application/json', 'Authorization': this.token}, })).json();
+  async _setStats(clientID, guilds_amount){
+    let s = await (await fetch(`${base_url}/api/auth/stats/${clientID}`, { method: 'POST', body: JSON.stringify({ servers: guilds_amount }), headers: { 'Content-Type': 'application/json', 'Authorization': this.token}, })).json();
     if(s.success == 'false') return nError('Ошибка отправки статистики! ' + s.error);
     if(s.success == 'true') return nLogWPT(' Статистика успешно отправлена на API Moonbots! ' + JSON.stringify(s))
   }
